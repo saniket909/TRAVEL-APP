@@ -54,7 +54,7 @@ class MainScreen extends StatelessWidget {
                 ),
               ),
               const Text(
-                'Ride',
+                'Trip',
                 style: TextStyle(
                   color: Color.fromARGB(255, 186, 32, 233),
                   fontSize: 30,

@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/CreateTrip.dart';
+import 'package:flutter_application_1/join_trip_page.dart';
+import 'package:flutter_application_1/tripmodel.dart';
+ // Import the Trip model
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
+  @override
+  _HomepageState createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  final List<Trip> trips = []; // List to store trips
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,17 +36,14 @@ class Homepage extends StatelessWidget {
           ),
         ],
       ),
-      body: const HomeSelection(),
+      body: HomeSelection(trips: trips, onTripCreated: _addTrip),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color.fromARGB(255, 222, 60, 251),
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              size: 28,
-            ),
+            icon: Icon(Icons.home, size: 28),
             label: 'Home',
           ),
           BottomNavigationBarItem(
@@ -46,10 +54,19 @@ class Homepage extends StatelessWidget {
       ),
     );
   }
+
+  void _addTrip(Trip trip) {
+    setState(() {
+      trips.add(trip);
+    });
+  }
 }
 
 class HomeSelection extends StatelessWidget {
-  const HomeSelection({super.key});
+  final List<Trip> trips;
+  final Function(Trip) onTripCreated;
+
+  const HomeSelection({super.key, required this.trips, required this.onTripCreated});
 
   @override
   Widget build(BuildContext context) {
@@ -61,277 +78,117 @@ class HomeSelection extends StatelessWidget {
           colors: [Colors.blueAccent, Colors.purpleAccent],
         ),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 50),
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          Container(
-            height: 320,
-            child: Image.asset("assets/logo.png"),
-          ),
-          // First box (Create Trip)
-          GestureDetector(
-            onTap: () {
-              // Navigate to CreatePage when Create Trip is tapped
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const CreatePage()),
-              );
-            },
-            child: Container(
-              width: 300,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.white, width: 2),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(4, 4),
-                    blurRadius: 10,
-                  ),
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(-4, -4),
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              child: const Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.travel_explore,
-                      size: 32,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Create Trip",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Second box (Join Trip)
-          GestureDetector(
-            onTap: () {
-              // Add your Join Trip navigation here if needed
-            },
-            child: Container(
-              width: 300,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.white, width: 2),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(4, 4),
-                    blurRadius: 10,
-                  ),
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(-4, -4),
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              child: const Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.location_city,
-                      size: 32,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Join Trip",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          // Third box (Browse Packages)
-          GestureDetector(
-            onTap: () {
-              // Add your Browse Packages navigation here if needed
-            },
-            child: Container(
-              width: 300,
-              height: 80,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.white, width: 2),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    offset: Offset(4, 4),
-                    blurRadius: 10,
-                  ),
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(-4, -4),
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
-              child: const Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.card_travel,
-                      size: 32,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Browse Packages",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
-  }
-}
-
-// CreatePage (when Create Trip is tapped)
-class CreatePage extends StatelessWidget {
-  const CreatePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 8, 140, 249),
-        title: const Text(
-          "Create Trip",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Color.fromARGB(255, 57, 251, 57),
-              child: CircleAvatar(
-                radius: 18,
-                backgroundImage: AssetImage("assets/img1.png"),
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 50),
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start, // Center the column
           children: [
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 70,
-              width: 350,
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 220, 115, 247),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Row(
-                children: [
-                  Icon(
-                    Icons.add,
-                    size: 24, // Increased icon size for better visibility
-                  ),
-                  SizedBox(width: 10), // Add spacing between icon and TextField
-                  Expanded(
-                    // Use Expanded to make the TextField take remaining space
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Enter source location",
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2,
-                          ),
+              height: 320,
+              child: Image.asset("assets/logo.png"),
+            ),
+        
+            _buildTripOption(context, "Create Trip", Icons.travel_explore, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreatePage(onTripCreated: onTripCreated)),
+              );
+            }),
+            const SizedBox(height: 20),
+       
+            _buildTripOption(context, "Join Trip", Icons.location_city, () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => JoinTripPage(trip: Trip(source: "", destination: "", carType: "", date: DateTime.now(), maxPeople: 0))), // Placeholder
+              );
+            }),
+            const SizedBox(height: 20),
+            // Browse Packages Container
+            _buildTripOption(context, "Browse Packages", Icons.card_travel, () {
+              // Navigate to Browse Packages page
+            }),
+            const SizedBox(height: 20),
+            // Display Created Trips
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: trips.map((trip) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    width: 300,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.white, width: 2),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(4, 4),
+                          blurRadius: 10,
                         ),
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(-4, -4),
+                          blurRadius: 10,
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: Text(
+                        "${trip?.source} to ${trip.destination}",
+                        style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: 70,
-              width: 350,
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 217, 120, 241),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Row(
-                children: [
-                  Icon(
-                    Icons.add,
-                    size: 24,
-                  ),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Enter Destination location",
-                        
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  );
+                }).toList(),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTripOption(BuildContext context, String title, IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreatePage(onTripCreated: onTripCreated)),
+              );
+      },
+      child: Container(
+        width: 300,
+        height: 80,
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.white, width: 2),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(4, 4),
+              blurRadius: 10,
+            ),
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(-4, -4),
+              blurRadius: 10,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, size: 32, color: Colors.white),
+              const SizedBox(width: 10),
+              Text(
+                title,
+                style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w700),
+              ),
+            ],
+          ),
         ),
       ),
     );
